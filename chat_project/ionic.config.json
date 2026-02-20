@@ -1,0 +1,7 @@
+{
+  "name": "chat_project",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
