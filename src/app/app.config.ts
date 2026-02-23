@@ -1,30 +1,20 @@
-import { ApplicationConfig, Component } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter, withPreloading, PreloadAllModules, RouteReuseStrategy } from '@angular/router';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { routes } from './app.routes';
+import { provideIonicAngular, IonicRouteStrategy } from '@ionic/angular/standalone';
 import { environment } from '../environments/environment';
-import { IonicModule } from '@ionic/angular';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes, withPreloading(PreloadAllModules)),
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    provideIonicAngular(),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore())
   ]
 };
-
-@Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [IonicModule],
-  template: `
-    <ion-app>
-      <ion-router-outlet></ion-router-outlet>
-    </ion-app>
-  `,
-  styles: []
-})
-export class AppComponent {}
