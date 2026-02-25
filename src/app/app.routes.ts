@@ -6,6 +6,10 @@ export const routes: Routes = [
     loadComponent: () => import('./home/home.page'),
   },
   {
+    path: 'chat',
+    loadComponent: () => import('./chat/chat.page'),
+  },
+  {
     path: '**',
     redirectTo: 'home',
   },
