@@ -18,7 +18,28 @@
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <p>Bienvenido al chat (Próximamente...)</p>
-  </div>
+  <ion-list>
+    <ion-item *ngFor="let message of messages$ | async">
+      <ion-label>
+        <h2>{{ message.user }}</h2>
+        <p>{{ message.text }}</p>
+        <p><small>{{ message.date | date:'short' }}</small></p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-item lines="none">
+      <ion-input 
+        [formControl]="messageControl" 
+        placeholder="Escribe un mensaje..."
+        (keyup.enter)="sendMessage()">
+      </ion-input>
+      <ion-button slot="end" (click)="sendMessage()" [disabled]="messageControl.invalid">
+        Enviar
+      </ion-button>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>
